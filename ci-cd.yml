@@ -1,1 +1,42 @@
+name: Build and Deploy React Dashboard App
+
+on:
+  push:
+    branches:
+      - main
+      - card
+      - button
+      - inputfl
+      - login
+      - modal
+      - navbar
+      - profile
+      - settings
+      - sidebar
+
+jobs:
+  build:
+    runs-on: window-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 22
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Run Build
+        run: npm run dev
+
+      - name: Build Project in vercel
+        run: npm run build
+
+      # Optional: Deploy with Vercel CLI or other tool
+      # - name: Deploy to Vercel
+      #   run: npx vercel --prod --token=${{ secrets.VERCEL_TOKEN }}
 
