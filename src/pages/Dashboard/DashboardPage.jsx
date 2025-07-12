@@ -1,85 +1,89 @@
-// src/pages/Dashboard/Dashboard.jsx
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
-import Button from '../../components/Button';
 import Card from '../../components/Card';
 import Modal from '../../components/Modal';
-// Reusable modal component
+import Button from '../../components/Button';
+import DashboardLayout from '../../layout/DashboardLayout';
 
-
-const Dashboard = () => {
-  // Dummy JSON data
-  const dummyData = {
-    user: {
-      name: 'John Doe',
-      email: 'john.doe@example.com',
-      profilePicture: 'https://via.placeholder.com/150'
-    },
-    stats: {
-      totalUsers: 1000,
-      posts: 120,
-      comments: 320
-    },
-    recentActivity: [
-      { activity: 'Liked a post', timestamp: '2 minutes ago' },
-      { activity: 'Commented on a post', timestamp: '30 minutes ago' },
-      { activity: 'Joined a new group', timestamp: '1 hour ago' }
-    ]
-  };
-
+const DashboardPage = () => {
   const [user, setUser] = useState({});
   const [stats, setStats] = useState({});
   const [recentActivity, setRecentActivity] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState('');
+  const [profilePicture, setProfilePicture] = useState(null);
 
   useEffect(() => {
-    // Simulating data fetching (e.g., from an API)
-    setUser(dummyData.user);
-    setStats(dummyData.stats);
-    setRecentActivity(dummyData.recentActivity);
+    // Simulate fetching user and stats data
+    setUser({
+      name: 'Dasuni',
+      email: 'dasu23@example.com',
+      profilePicture: 'https://via.placeholder.com/150', // Default image
+    });
+    setStats({
+      totalUsers: 1000,
+      posts: 120,
+      comments: 320,
+      revenue: 50000, // Adding more stats
+      tasksCompleted: 150, // Example stat
+      activeProjects: 7, // Example stat
+    });
+    setRecentActivity([
+      { activity: 'calculate revenue', timestamp: '2 minutes ago' },
+      { activity: 'Commented on a review', timestamp: '30 minutes ago' },
+      { activity: 'Joined a new user', timestamp: '1 hour ago' },
+    ]);
   }, []);
 
   const openModal = (content) => {
-    setModalContent(content);  // Set the content for the modal
-    setIsModalOpen(true);  // Open the modal
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);  // Close the modal
+    setModalContent(content);
+    setIsModalOpen(true);
   };
 
   return (
-    <div className="p-6">
+    <DashboardLayout>
+      {/* Dynamic Title using Helmet */}
       <Helmet>
-        <title>Dashboard - User Management</title>
+        <title>{user.name ? `${user.name}'s Dashboard` : 'User Dashboard'}</title>
         <meta name="description" content="User dashboard displaying stats and recent activity" />
       </Helmet>
 
-      {/* Welcome Message */}
       <div className="flex items-center mb-6">
-        <img
-          src={user.profilePicture}
-          alt="Profile"
-          className="w-16 h-16 rounded-full mr-4"
-        />
-        <h1 className="text-3xl font-bold">Welcome back, {user.name}!</h1>
+        {/* Profile Picture and Welcome Message */}
+        <div className="relative">
+          <img
+            src={profilePicture || user.profilePicture}
+            alt="Profile"
+            className="w-16 h-16 rounded-full mr-4 cursor-pointer"
+            onClick={() => document.getElementById('profilePictureInput').click()} // Trigger input on image click
+          />
+          <input
+            type="file"
+            onChange={(e) => handleProfilePicChange(e)}
+            className="hidden"
+            id="profilePictureInput"
+          />
+        </div>
+        <h1 className="text-3xl font-bold text-gray-800 ml-4">Welcome back, {user.name}!</h1>
       </div>
 
-      {/* User Stats Section */}
-      <div className="grid grid-cols-3 gap-6 mb-6">
-        <Card title="Total Users" content={stats.totalUsers} onClick={() => openModal('Total Users Info')} />
-        <Card title="Posts" content={stats.posts} onClick={() => openModal('Posts Info')} />
-        <Card title="Comments" content={stats.comments} onClick={() => openModal('Comments Info')} />
+      {/* Dashboard Stats Section */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-6">
+        <Card title="Total Users" content={stats.totalUsers} />
+        <Card title="Posts" content={stats.posts} />
+        <Card title="Comments" content={stats.comments} />
+        <Card title="Revenue" content={`$${stats.revenue}`} />
+        <Card title="Completed Tasks" content={stats.tasksCompleted} />
+        <Card title="Active Projects" content={stats.activeProjects} />
       </div>
 
       {/* Recent Activity Section */}
       <div className="mb-6">
-        <h2 className="text-2xl font-semibold mb-4">Recent Activity</h2>
-        <ul>
+        <h2 className="text-2xl font-semibold text-gray-800 mb-4">Recent Activity</h2>
+        <ul className="bg-white p-4 rounded-lg shadow">
           {recentActivity.map((activity, index) => (
-            <li key={index} className="mb-2">
-              <span className="font-semibold">{activity.activity}</span> - <span className="text-gray-600">{activity.timestamp}</span>
+            <li key={index} className="py-2 border-b last:border-none">
+              <strong>{activity.activity}</strong> - <span className="text-gray-600">{activity.timestamp}</span>
             </li>
           ))}
         </ul>
@@ -91,14 +95,16 @@ const Dashboard = () => {
         <Button label="Manage Profile" onClick={() => openModal('Profile Management Info')} />
       </div>
 
-      {/* Modal to display additional information */}
-      <Modal isOpen={isModalOpen} onClose={closeModal}>
+      {/* Modal to Display Additional Information */}
+      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <h2 className="text-xl font-bold">Details: {modalContent}</h2>
-        <p className="mt-4">Here is more detailed information about {modalContent}...</p>
-        <Button label="Close" onClick={closeModal} />
+        <p className="mt-4 text-gray-700">Here is more detailed information about {modalContent}...</p>
+        <div className="mt-4">
+          <Button label="Close" onClick={() => setIsModalOpen(false)} />
+        </div>
       </Modal>
-    </div>
+    </DashboardLayout>
   );
 };
 
-export default Dashboard;
+export default DashboardPage;

@@ -1,14 +1,21 @@
-// src/components/Navbar/Navbar.jsx
 import React from 'react';
+import { Link } from 'react-router-dom'; // Import Link for navigation
+import { FaUserEdit } from 'react-icons/fa'; // Import Edit icon
 
 const Navbar = () => {
   return (
-    <div className="bg-gray-800 text-white flex justify-between items-center p-4">
-      <div className="text-2xl font-bold">User Dashboard</div>
-      <div className="flex items-center">
-        <img src="https://via.placeholder.com/40" alt="Profile" className="w-10 h-10 rounded-full mr-4" />
-        <span className="mr-4">John Doe</span>
-        <button className="bg-red-600 text-white py-2 px-4 rounded">Logout</button>
+    <div className="bg-white shadow-md px-6 py-4 flex justify-between items-center">
+      <h1 className="text-xl font-semibold">User Dashboard</h1>
+      
+      <div className="flex items-center gap-4">
+        {/* Edit Profile Button */}
+        <Link to="/profile" className="flex items-center gap-2 text-blue-500 hover:text-blue-700">
+          <FaUserEdit className="text-lg" />
+          <span className="text-gray-700 font-medium">Edit Profile</span>
+        </Link>
+        
+        {/* Logout Button */}
+        <button className="bg-red-600 text-white px-4 py-2 rounded">Logout</button>
       </div>
     </div>
   );

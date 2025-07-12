@@ -1,11 +1,10 @@
-// src/components/Card/Card.jsx
 import React from 'react';
 
 function Card({ title, content }) {
   return (
-    <div className="p-6 bg-white rounded-lg shadow-md">
-      <h3 className="text-xl font-semibold mb-4">{title}</h3>
-      <p className="text-2xl">{content}</p>
+    <div className="bg-white p-6 rounded-lg shadow hover:shadow-lg transition duration-300">
+      <h3 className="text-lg font-semibold mb-2 text-gray-800">{title}</h3>
+      <p className="text-2xl text-blue-600 font-bold">{content}</p>
     </div>
   );
 }
