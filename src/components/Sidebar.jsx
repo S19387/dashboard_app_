@@ -1,8 +1,16 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom'; // Import Link and useNavigate
 import { FaTachometerAlt, FaUser, FaCog } from 'react-icons/fa';
 
 const Sidebar = () => {
+  const navigate = useNavigate(); // Initialize useNavigate hook
+
+  const handleLogout = () => {
+    // Clear user session or authentication data if necessary
+    // Navigate to login page
+    navigate('/login');
+  };
+
   return (
     <div className="bg-purple-700 text-white w-64 h-screen p-6 fixed top-0 left-0 flex flex-col">
       <h2 className="text-2xl font-bold mb-10">INFINITY OS</h2>
@@ -25,7 +33,12 @@ const Sidebar = () => {
           </li>
         </ul>
       </nav>
-      <button className="bg-red-500 py-2 px-4 rounded mt-auto">Logout</button>
+      <button
+        onClick={handleLogout} // Trigger logout function
+        className="bg-red-500 py-2 px-4 rounded mt-auto"
+      >
+        Logout
+      </button>
     </div>
   );
 };

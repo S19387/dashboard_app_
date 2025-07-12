@@ -1,51 +1,67 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';  // To navigate after login
+import { useNavigate } from 'react-router-dom'; // Use useNavigate instead of useHistory
+import { Helmet } from 'react-helmet'; // For dynamic title
 import Button from '../../components/Button';
-import InputField from '../../components/InputField';  // You can make this a reusable input field component
 
 const LoginPage = () => {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const navigate = useNavigate(); // useNavigate for navigation
 
-  const history = useHistory();
+  // Dummy login credentials
+  const validEmail = 'dasuni23@example.com';
+  const validPassword = 'password123';
 
-  // Simulate token-based login
   const handleLogin = (e) => {
     e.preventDefault();
 
-    // Simulating credentials
-    const validUsername = 'admin';
-    const validPassword = 'password';
-
-    if (username === validUsername && password === validPassword) {
-      // Simulate storing a token in localStorage after successful login
+    if (email === validEmail && password === validPassword) {
+      // Simulate saving token to localStorage
       localStorage.setItem('authToken', 'dummy-token');
-      history.push('/dashboard');  // Redirect to dashboard after login
+      navigate('/dashboard'); // Redirect to dashboard on successful login
     } else {
-      setError('Invalid credentials! Please try again.');
+      setError('Invalid credentials, please try again.');
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="max-w-sm w-full bg-white p-8 rounded-lg shadow-lg">
-        <h2 className="text-3xl font-bold mb-6 text-center">Login</h2>
-        {error && <div className="text-red-500 text-center mb-4">{error}</div>}
+    <div className="flex justify-center items-center min-h-screen bg-gray-100">
+      <Helmet>
+        <title>Login - User Dashboard</title>
+        <meta name="description" content="Login to your account" />
+      </Helmet>
 
+      <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-sm">
+        <h2 className="text-2xl font-semibold mb-4 text-center">Login</h2>
+        {error && <p className="text-red-500 text-center mb-4">{error}</p>}
         <form onSubmit={handleLogin}>
-          <InputField
-            label="Username"
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-          <InputField
-            label="Password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
+          <div className="mb-4">
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
+            <input
+              type="email"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full p-2 mt-2 border rounded-md"
+              placeholder="Enter your email"
+              required
+            />
+          </div>
+
+          <div className="mb-4">
+            <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
+            <input
+              type="password"
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full p-2 mt-2 border rounded-md"
+              placeholder="Enter your password"
+              required
+            />
+          </div>
+
           <Button label="Login" type="submit" />
         </form>
       </div>

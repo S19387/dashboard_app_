@@ -7,8 +7,8 @@ import InputField from '../../components/InputField';
 
 const Profile = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [username, setUsername] = useState('John Doe');
-  const [email, setEmail] = useState('john.doe@example.com');
+  const [username, setUsername] = useState('Dasuni');
+  const [email, setEmail] = useState('dasuni23@example.com');
   const [newUsername, setNewUsername] = useState('');
   const [newEmail, setNewEmail] = useState('');
 

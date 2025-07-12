@@ -1,22 +1,11 @@
+// src/components/PrivateRoute.jsx
 import React from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
-// Protected Route to prevent unauthorized access
-const PrivateRoute = ({ component: Component, ...rest }) => {
-  const isAuthenticated = localStorage.getItem('authToken');  // Check if token exists
+const PrivateRoute = ({ element }) => {
+  const isAuthenticated = localStorage.getItem('authToken'); // Check for token
 
-  return (
-    <Route
-      {...rest}
-      render={(props) =>
-        isAuthenticated ? (
-          <Component {...props} />
-        ) : (
-          <Redirect to="/login" />  // Redirect to login if not authenticated
-        )
-      }
-    />
-  );
+  return isAuthenticated ? element : <Navigate to="/login" />;
 };
 
 export default PrivateRoute;
