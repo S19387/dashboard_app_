@@ -10,8 +10,8 @@ const LoginPage = () => {
   const navigate = useNavigate(); // useNavigate for navigation
 
   // Dummy login credentials
-  const validEmail = 'dasuni23@example.com';
-  const validPassword = 'password123';
+ const validEmail = import.meta.env.VITE_DUMMY_EMAIL;
+ const validPassword = import.meta.env.VITE_DUMMY_PASSWORD;
 
   const handleLogin = (e) => {
     e.preventDefault();
