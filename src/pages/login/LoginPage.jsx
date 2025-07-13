@@ -1,27 +1,28 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Use useNavigate instead of useHistory
-import { Helmet } from 'react-helmet'; // For dynamic title
+import { useNavigate } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
+import { toast } from 'react-toastify';
 import Button from '../../components/Button';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const navigate = useNavigate(); // useNavigate for navigation
+  const navigate = useNavigate();
 
-  // Dummy login credentials
- const validEmail = import.meta.env.VITE_DUMMY_EMAIL;
- const validPassword = import.meta.env.VITE_DUMMY_PASSWORD;
+  const validEmail = import.meta.env.VITE_DUMMY_EMAIL;
+  const validPassword = import.meta.env.VITE_DUMMY_PASSWORD;
 
   const handleLogin = (e) => {
     e.preventDefault();
 
     if (email === validEmail && password === validPassword) {
-      // Simulate saving token to localStorage
       localStorage.setItem('authToken', 'dummy-token');
-      navigate('/dashboard'); // Redirect to dashboard on successful login
+      toast.success('Login successful!');
+      navigate('/dashboard');
     } else {
       setError('Invalid credentials, please try again.');
+      toast.error('Invalid credentials, please try again.');
     }
   };
 

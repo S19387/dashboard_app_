@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { toast } from 'react-toastify';
 import DashboardLayout from '../../layout/DashboardLayout';
 import Card from '../../components/Card';
 import Button from '../../components/Button';
@@ -15,6 +16,7 @@ const Profile = () => {
   const handleSubmit = () => {
     setUsername(newUsername);
     setEmail(newEmail);
+    toast.success('Profile updated successfully!');
     setIsModalOpen(false);
   };
 

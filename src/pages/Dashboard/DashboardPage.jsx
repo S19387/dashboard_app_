@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import Card from '../../components/Card';
 import Modal from '../../components/Modal';
 import Button from '../../components/Button';
@@ -13,7 +14,7 @@ const DashboardPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState('');
   const [profilePicture, setProfilePicture] = useState(null);
-  const navigate = useNavigate(); // Initialize useNavigate hook
+  const navigate = useNavigate();
 
   useEffect(() => {
     setUser({
@@ -43,7 +44,19 @@ const DashboardPage = () => {
 
   const handleModalClose = () => {
     setIsModalOpen(false);
-    navigate('/stats'); // After closing the modal, navigate to StatsPage
+    navigate('/stats');
+  };
+
+  const handleProfilePicChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setProfilePicture(reader.result);
+        toast.success('Profile picture updated!');
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   return (
@@ -59,11 +72,11 @@ const DashboardPage = () => {
             src={profilePicture || user.profilePicture}
             alt="Profile"
             className="w-16 h-16 rounded-full mr-4 cursor-pointer"
-            onClick={() => document.getElementById('profilePictureInput').click()} // Trigger input on image click
+            onClick={() => document.getElementById('profilePictureInput').click()}
           />
           <input
             type="file"
-            onChange={(e) => handleProfilePicChange(e)}
+            onChange={handleProfilePicChange}
             className="hidden"
             id="profilePictureInput"
           />
@@ -95,7 +108,6 @@ const DashboardPage = () => {
         <Button label="View All Stats" onClick={() => openModal('All Stats Info')} />
       </div>
 
-      {/* Modal to Display Additional Information */}
       <Modal isOpen={isModalOpen} onClose={handleModalClose}>
         <h2 className="text-xl font-bold">Details: {modalContent}</h2>
         <p className="mt-4 text-gray-700">Here is more detailed information about {modalContent}...</p>

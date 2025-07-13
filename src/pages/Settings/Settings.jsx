@@ -1,5 +1,5 @@
-
 import React, { useState } from 'react';
+import { toast } from 'react-toastify';
 import DashboardLayout from '../../layout/DashboardLayout';
 import Card from '../../components/Card';
 import Button from '../../components/Button';
@@ -14,10 +14,10 @@ const Settings = () => {
 
   const handleSubmit = () => {
     if (newPassword === confirmPassword) {
-      alert('Password updated successfully!');
+      toast.success('Password updated successfully!');
       setIsModalOpen(false);
     } else {
-      alert('Passwords do not match!');
+      toast.error('Passwords do not match!');
     }
   };
 
